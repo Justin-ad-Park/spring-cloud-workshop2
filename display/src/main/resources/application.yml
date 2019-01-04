@@ -1,0 +1,40 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: display
+  cloud:
+    config:
+      uri: http://localhost:8889
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    metadataMap:
+      zone: zone1
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+product:
+  ribbon:
+#    listOfServers: localhost:8084, localhost:8083
+    maxAutoRetries: 0
+    maxAutoRetriesNextServer: 1
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+      circuitBreaker:
+        requestVolumeThreshold: 1
+        errorThresholdPercentage: 50
+#hystrix-core-1.5.12.jar!/com/netflix/hystrix/HystrixCommandProperties.class
+
+feign:
+  hystrix:
+    enabled: true
